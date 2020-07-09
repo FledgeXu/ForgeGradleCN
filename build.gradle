@@ -4,7 +4,12 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.20.0'
   //id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
-
+allprojects {
+    repositories {
+        maven { url = 'https://maven.aliyun.com/repository/jcenter'}
+        maven { url = 'https://maven.aliyun.com/repository/central'}
+    }
+}
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
