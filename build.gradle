@@ -134,7 +134,7 @@ publishing {
                 username System.env.MAVEN_USERNAME
                 password System.env.MAVEN_PASSWORD
             }
-            url 'http://64.64.242.41:8888/releases'
+            url 'http://gradle.otakusaikou.com/releases'
         }
     }
 }
