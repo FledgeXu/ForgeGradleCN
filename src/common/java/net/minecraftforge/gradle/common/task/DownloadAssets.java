@@ -55,7 +55,7 @@ public class DownloadAssets extends DefaultTask {
             Asset asset = index.objects.get(key);
             File target = Utils.getCache(getProject(), "assets", "objects", asset.getPath());
             if (!target.exists()) {
-                URL url = new URL(Mirrors.BMCL_AESSETS + asset.getPath());
+                URL url = new URL(Mirrors.MCBBS_AESSETS + asset.getPath());
                 Runnable copyURLtoFile = () -> {
                     try {
                         getProject().getLogger().lifecycle("Downloading: " + url + " Asset: " + key);
