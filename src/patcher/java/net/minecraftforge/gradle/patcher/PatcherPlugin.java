@@ -23,7 +23,6 @@ package net.minecraftforge.gradle.patcher;
 import com.google.common.collect.Lists;
 import net.minecraftforge.gradle.common.task.*;
 import net.minecraftforge.gradle.common.util.*;
-import net.minecraftforge.gradle.common.util.Mirrors;
 import net.minecraftforge.gradle.mcp.MCPExtension;
 import net.minecraftforge.gradle.mcp.MCPPlugin;
 import net.minecraftforge.gradle.mcp.MCPRepo;
@@ -99,6 +98,9 @@ public class PatcherPlugin implements Plugin<Project> {
 
         //Add Known repos
         project.getRepositories().maven(e -> {
+            e.setUrl(Mirrors.MCBBS_MAVEN);
+        });
+        project.getRepositories().maven(e -> {
             e.setUrl(Mirrors.BMCL_MAVEN);
         });
         project.getRepositories().maven(e -> {
@@ -108,6 +110,10 @@ public class PatcherPlugin implements Plugin<Project> {
                 .add(MCPRepo.create(project))
                 .add(MinecraftRepo.create(project))
                 .attach(project);
+        project.getRepositories().maven(e -> {
+            e.setUrl(Mirrors.MCBBS_MAVEN);
+            e.metadataSources(src -> src.artifact());
+        });
         project.getRepositories().maven(e -> {
             e.setUrl(Mirrors.BMCL_MAVEN);
             e.metadataSources(src -> src.artifact());

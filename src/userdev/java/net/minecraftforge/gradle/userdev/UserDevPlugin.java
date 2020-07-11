@@ -257,7 +257,7 @@ public class UserDevPlugin implements Plugin<Project> {
                 e.setUrl(Mirrors.ALIYUN_CENTRAL);
             });
             project.getRepositories().maven(e -> {
-                e.setUrl(Mirrors.ALIYUN_JCENTER);
+                e.setUrl(Mirrors.MCBBS_MAVEN);
             });
             project.getRepositories().maven(e -> {
                 e.setUrl(Mirrors.BMCL_MAVEN);
