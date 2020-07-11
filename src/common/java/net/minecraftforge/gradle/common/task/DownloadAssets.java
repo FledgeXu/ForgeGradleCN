@@ -20,6 +20,7 @@
 
 package net.minecraftforge.gradle.common.task;
 
+import net.minecraftforge.gradle.common.util.Mirrors;
 import net.minecraftforge.gradle.common.util.Utils;
 import net.minecraftforge.gradle.common.util.VersionJson;
 import org.apache.commons.io.FileUtils;
@@ -54,7 +55,7 @@ public class DownloadAssets extends DefaultTask {
             Asset asset = index.objects.get(key);
             File target = Utils.getCache(getProject(), "assets", "objects", asset.getPath());
             if (!target.exists()) {
-                URL url = new URL(RESOURCE_REPO + asset.getPath());
+                URL url = new URL(Mirrors.BMCL_AESSETS + asset.getPath());
                 Runnable copyURLtoFile = () -> {
                     try {
                         getProject().getLogger().lifecycle("Downloading: " + url + " Asset: " + key);

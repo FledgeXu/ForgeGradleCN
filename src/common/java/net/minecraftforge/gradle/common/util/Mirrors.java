@@ -24,6 +24,7 @@ public class Mirrors {
     public static final String MCBBS = "https://download.mcbbs.net";
     public static final String BMCL_MAVEN = "http://bmclapi2.bangbang93.com/maven";
     public static final String MCBBS_MAVEN = "https://download.mcbbs.net/maven";
+    public static final String BMCL_AESSETS = "https://bmclapi2.bangbang93.com/assets/";
     public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/central";
     public static final String ALIYUN_JCENTER = "https://maven.aliyun.com/repository/jcenter";
 }
