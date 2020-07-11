@@ -46,7 +46,7 @@ public abstract class AbstractFileDownloadFunction implements MCPFunction {
 
     @Override
     public File execute(MCPEnvironment environment) throws Exception {
-        File output = (File)environment.getArguments().computeIfAbsent("output", k -> environment.getFile(outputGetter.apply(environment)));
+        File output = (File) environment.getArguments().computeIfAbsent("output", k -> environment.getFile(outputGetter.apply(environment)));
         File download = !output.exists() ? output : environment.getFile(output.getAbsolutePath() + ".new");
 
         Utils.delete(download); // This file should never exist, but abrupt termination of the process may leave it behind
@@ -55,7 +55,7 @@ public abstract class AbstractFileDownloadFunction implements MCPFunction {
         if (info.hash != null && output.exists() && HashUtil.sha1(output).equals(info.hash)) {
             return output; // If the hash matches, don't download again
         }
-        FileUtils.copyURLToFile(new URL(info.url), download);
+        FileUtils.copyURLToFile(new URL(info.url), download, 10_000, 5_000);
 
         if (output != download) {
             if (FileUtils.contentEquals(output, download)) {

@@ -20,10 +20,11 @@
 
 package net.minecraftforge.gradle.mcp.function;
 
-import net.minecraftforge.gradle.mcp.util.MCPEnvironment;
-import org.gradle.internal.hash.HashValue;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import net.minecraftforge.gradle.common.util.Mirrors;
+import net.minecraftforge.gradle.mcp.util.MCPEnvironment;
+import org.gradle.internal.hash.HashValue;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public abstract class AbstractDownloadMCFunction extends AbstractFileDownloadFun
             reader.close();
 
             JsonObject artifactInfo = json.getAsJsonObject("downloads").getAsJsonObject(artifact);
-            String url = artifactInfo.get("url").getAsString();
+            String url = artifactInfo.get("url").getAsString().replace("https://launcher.mojang.com", Mirrors.MCBBS);
             HashValue hash = HashValue.parse(artifactInfo.get("sha1").getAsString());
             return new DownloadInfo(url, hash);
         } catch (IOException ex) {

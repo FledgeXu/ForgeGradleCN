@@ -21,39 +21,19 @@
 package net.minecraftforge.gradle.patcher;
 
 import com.google.common.collect.Lists;
-import net.minecraftforge.gradle.common.task.DownloadAssets;
-import net.minecraftforge.gradle.common.task.DownloadMCMeta;
-import net.minecraftforge.gradle.common.task.DynamicJarExec;
-import net.minecraftforge.gradle.common.task.ExtractMCPData;
-import net.minecraftforge.gradle.common.task.ExtractNatives;
-import net.minecraftforge.gradle.common.task.ExtractZip;
-import net.minecraftforge.gradle.common.util.BaseRepo;
-import net.minecraftforge.gradle.common.util.MavenArtifactDownloader;
-import net.minecraftforge.gradle.common.util.MinecraftRepo;
-import net.minecraftforge.gradle.common.util.Utils;
-import net.minecraftforge.gradle.common.util.VersionJson;
+import net.minecraftforge.gradle.common.task.*;
+import net.minecraftforge.gradle.common.util.*;
+import net.minecraftforge.gradle.common.util.Mirrors;
 import net.minecraftforge.gradle.mcp.MCPExtension;
 import net.minecraftforge.gradle.mcp.MCPPlugin;
 import net.minecraftforge.gradle.mcp.MCPRepo;
 import net.minecraftforge.gradle.mcp.function.AccessTransformerFunction;
 import net.minecraftforge.gradle.mcp.function.SideAnnotationStripperFunction;
 import net.minecraftforge.gradle.mcp.task.DownloadMCPConfigTask;
-import net.minecraftforge.gradle.mcp.task.SetupMCPTask;
-import net.minecraftforge.gradle.patcher.task.CreateFakeSASPatches;
 import net.minecraftforge.gradle.mcp.task.DownloadMCPMappingsTask;
 import net.minecraftforge.gradle.mcp.task.GenerateSRG;
-import net.minecraftforge.gradle.patcher.task.GenerateBinPatches;
-import net.minecraftforge.gradle.common.task.TaskApplyMappings;
-import net.minecraftforge.gradle.patcher.task.TaskApplyPatches;
-import net.minecraftforge.gradle.common.task.TaskApplyRangeMap;
-import net.minecraftforge.gradle.patcher.task.TaskCreateExc;
-import net.minecraftforge.gradle.common.task.TaskExtractExistingFiles;
-import net.minecraftforge.gradle.common.task.TaskExtractRangeMap;
-import net.minecraftforge.gradle.patcher.task.TaskFilterNewJar;
-import net.minecraftforge.gradle.patcher.task.TaskGeneratePatches;
-import net.minecraftforge.gradle.patcher.task.TaskGenerateUserdevConfig;
-import net.minecraftforge.gradle.patcher.task.TaskReobfuscateJar;
-
+import net.minecraftforge.gradle.mcp.task.SetupMCPTask;
+import net.minecraftforge.gradle.patcher.task.*;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -119,12 +99,20 @@ public class PatcherPlugin implements Plugin<Project> {
 
         //Add Known repos
         project.getRepositories().maven(e -> {
+            e.setUrl(Mirrors.BMCL_MAVEN);
+        });
+        project.getRepositories().maven(e -> {
             e.setUrl(Utils.FORGE_MAVEN);
         });
         new BaseRepo.Builder()
-            .add(MCPRepo.create(project))
-            .add(MinecraftRepo.create(project))
-            .attach(project);
+                .add(MCPRepo.create(project))
+                .add(MinecraftRepo.create(project))
+                .attach(project);
+        project.getRepositories().maven(e -> {
+            e.setUrl(Mirrors.BMCL_MAVEN);
+            e.metadataSources(src -> src.artifact());
+        });
+
         project.getRepositories().maven(e -> {
             e.setUrl(Utils.MOJANG_MAVEN);
             e.metadataSources(src -> src.artifact());
@@ -310,7 +298,7 @@ public class PatcherPlugin implements Plugin<Project> {
             });
 
             if (doingUpdate) {
-                TaskExtractExistingFiles extract = (TaskExtractExistingFiles)p.getTasks().getByName("extractMappedNew");
+                TaskExtractExistingFiles extract = (TaskExtractExistingFiles) p.getTasks().getByName("extractMappedNew");
                 for (File dir : mainSource.getJava().getSrcDirs()) {
                     if (dir.equals(extension.patchedSrc)) //Don't overwrite the patched code, re-setup the project.
                         continue;
@@ -371,7 +359,7 @@ public class PatcherPlugin implements Plugin<Project> {
                         genConfig.get().setClean(extension.cleanSrc);
                     }
 
-                    DownloadMCPConfigTask dlMCP = (DownloadMCPConfigTask)tasks.getByName("downloadConfig");
+                    DownloadMCPConfigTask dlMCP = (DownloadMCPConfigTask) tasks.getByName("downloadConfig");
 
                     if (createMcp2Srg.get().getSrg() == null) { //TODO: Make extractMCPData macro
                         TaskProvider<ExtractMCPData> ext = project.getTasks().register("extractSrg", ExtractMCPData.class);
@@ -437,24 +425,24 @@ public class PatcherPlugin implements Plugin<Project> {
                     }
 
                     if (createMcp2Srg.get().getSrg() == null) {
-                        ExtractMCPData extract = ((ExtractMCPData)tasks.getByName("extractSrg"));
+                        ExtractMCPData extract = ((ExtractMCPData) tasks.getByName("extractSrg"));
                         if (extract != null) {
                             createMcp2Srg.get().setSrg(extract.getOutput());
                             createMcp2Srg.get().dependsOn(extract);
                         } else {
-                            GenerateSRG task = (GenerateSRG)tasks.getByName(createMcp2Srg.get().getName());
+                            GenerateSRG task = (GenerateSRG) tasks.getByName(createMcp2Srg.get().getName());
                             createMcp2Srg.get().setSrg(task.getSrg());
                             createMcp2Srg.get().dependsOn(task);
                         }
                     }
 
                     if (createExc.get().getSrg() == null) { //TODO: Make a macro for Srg/Static/Constructors
-                        ExtractMCPData extract = ((ExtractMCPData)tasks.getByName("extractSrg"));
+                        ExtractMCPData extract = ((ExtractMCPData) tasks.getByName("extractSrg"));
                         if (extract != null) {
                             createExc.get().setSrg(extract.getOutput());
                             createExc.get().dependsOn(extract);
                         } else {
-                            TaskCreateExc task = (TaskCreateExc)tasks.getByName(createExc.get().getName());
+                            TaskCreateExc task = (TaskCreateExc) tasks.getByName(createExc.get().getName());
                             createExc.get().setSrg(task.getSrg());
                             createExc.get().dependsOn(task);
                         }

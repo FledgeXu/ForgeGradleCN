@@ -21,11 +21,8 @@
 package net.minecraftforge.gradle.userdev;
 
 import net.minecraftforge.gradle.common.task.*;
-import net.minecraftforge.gradle.common.util.BaseRepo;
-import net.minecraftforge.gradle.common.util.MappingFile;
-import net.minecraftforge.gradle.common.util.MinecraftRepo;
-import net.minecraftforge.gradle.common.util.Utils;
-import net.minecraftforge.gradle.common.util.VersionJson;
+import net.minecraftforge.gradle.common.util.*;
+import net.minecraftforge.gradle.common.util.Mirrors;
 import net.minecraftforge.gradle.mcp.MCPRepo;
 import net.minecraftforge.gradle.mcp.task.DownloadMCPMappingsTask;
 import net.minecraftforge.gradle.mcp.task.GenerateSRG;
@@ -60,8 +57,7 @@ public class UserDevPlugin implements Plugin<Project> {
     public void apply(@Nonnull Project project) {
         Utils.checkJavaVersion();
 
-        @SuppressWarnings("unused")
-        final Logger logger = project.getLogger();
+        @SuppressWarnings("unused") final Logger logger = project.getLogger();
         final UserDevExtension extension = project.getExtensions().create(UserDevExtension.EXTENSION_NAME, UserDevExtension.class, project);
 
         if (project.getPluginManager().findPlugin("java") == null) {
@@ -174,8 +170,8 @@ public class UserDevPlugin implements Plugin<Project> {
         });
 
         if (project.hasProperty("UPDATE_MAPPINGS")) {
-            String version = (String)project.property("UPDATE_MAPPINGS");
-            String channel = project.hasProperty("UPDATE_MAPPINGS_CHANNEL") ? (String)project.property("UPDATE_MAPPINGS_CHANNEL") : "snapshot";
+            String version = (String) project.property("UPDATE_MAPPINGS");
+            String channel = project.hasProperty("UPDATE_MAPPINGS_CHANNEL") ? (String) project.property("UPDATE_MAPPINGS_CHANNEL") : "snapshot";
 
             logger.lifecycle("This process uses Srg2Source for java source file renaming. Please forward relevant bug reports to https://github.com/MinecraftForge/Srg2Source/issues.");
             if ("official".equals(channel)) {
@@ -257,6 +253,15 @@ public class UserDevPlugin implements Plugin<Project> {
                 minecraft.getDependencies().add(ext);
             }
 
+            project.getRepositories().maven(e -> {
+                e.setUrl(Mirrors.ALIYUN_CENTRAL);
+            });
+            project.getRepositories().maven(e -> {
+                e.setUrl(Mirrors.ALIYUN_JCENTER);
+            });
+            project.getRepositories().maven(e -> {
+                e.setUrl(Mirrors.BMCL_MAVEN);
+            });
             project.getRepositories().maven(e -> {
                 e.setUrl(Utils.FORGE_MAVEN);
             });

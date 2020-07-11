@@ -21,15 +21,8 @@
 package net.minecraftforge.gradle.mcp;
 
 import net.minecraftforge.gradle.common.util.Utils;
-import net.minecraftforge.gradle.mcp.function.DownloadClientFunction;
-import net.minecraftforge.gradle.mcp.function.DownloadManifestFunction;
-import net.minecraftforge.gradle.mcp.function.DownloadServerFunction;
-import net.minecraftforge.gradle.mcp.function.DownloadVersionJSONFunction;
-import net.minecraftforge.gradle.mcp.function.InjectFunction;
-import net.minecraftforge.gradle.mcp.function.ListLibrariesFunction;
-import net.minecraftforge.gradle.mcp.function.MCPFunction;
-import net.minecraftforge.gradle.mcp.function.PatchFunction;
-import net.minecraftforge.gradle.mcp.function.StripJarFunction;
+import net.minecraftforge.gradle.common.util.Mirrors;
+import net.minecraftforge.gradle.mcp.function.*;
 import net.minecraftforge.gradle.mcp.task.DownloadMCPConfigTask;
 import net.minecraftforge.gradle.mcp.task.SetupMCPTask;
 import org.gradle.api.Plugin;
@@ -58,6 +51,10 @@ public class MCPPlugin implements Plugin<Project> {
         });
 
         project.afterEvaluate(p -> {
+            project.getRepositories().maven(e -> {
+                e.setUrl(Mirrors.BMCL_MAVEN);
+                e.metadataSources(src -> src.artifact());
+            });
             //Add Known repos
             project.getRepositories().maven(e -> {
                 e.setUrl(Utils.MOJANG_MAVEN);
