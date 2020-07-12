@@ -53,7 +53,7 @@ import java.util.zip.ZipOutputStream;
 public class MinecraftRepo extends BaseRepo {
     private static MinecraftRepo INSTANCE;
     private static final String GROUP = "net.minecraft";
-    public static final String MANIFEST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
+    public static final String MANIFEST_URL = "https://download.mcbbs.net/mc/game/version_manifest.json";
     public static final String CURRENT_OS = OS.getCurrent().getName();
     private static int CACHE_BUSTER = 1;
     private static final MinecraftVersion v1_14_4 = MinecraftVersion.from("1.14.4");

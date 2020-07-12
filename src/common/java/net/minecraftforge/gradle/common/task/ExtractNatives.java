@@ -20,16 +20,18 @@
 
 package net.minecraftforge.gradle.common.task;
 
-import java.io.File;
-import java.io.IOException;
+import net.minecraftforge.gradle.common.util.Mirrors;
+import net.minecraftforge.gradle.common.util.Utils;
+import net.minecraftforge.gradle.common.util.VersionJson;
+import net.minecraftforge.gradle.common.util.VersionJson.LibraryDownload;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
-import net.minecraftforge.gradle.common.util.Utils;
-import net.minecraftforge.gradle.common.util.VersionJson;
-import net.minecraftforge.gradle.common.util.VersionJson.LibraryDownload;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class ExtractNatives extends DefaultTask {
     private File meta;
@@ -40,6 +42,7 @@ public class ExtractNatives extends DefaultTask {
         VersionJson json = Utils.loadJson(getMeta(), VersionJson.class);
         for (LibraryDownload lib : json.getNatives()) {
             File target = Utils.getCache(getProject(), "libraries", lib.path);
+            lib.url = new URL(lib.url.toString().toLowerCase().replace("https://libraries.minecraft.net", Mirrors.MCBBS_MAVEN));
             Utils.updateDownload(getProject(), target, lib);
             Utils.extractZip(target, getOutput(), false);
         }
@@ -49,6 +52,7 @@ public class ExtractNatives extends DefaultTask {
     public File getMeta() {
         return this.meta;
     }
+
     public void setMeta(File value) {
         this.meta = value;
     }
@@ -57,6 +61,7 @@ public class ExtractNatives extends DefaultTask {
     public File getOutput() {
         return this.output;
     }
+
     public void setOutput(File value) {
         this.output = value;
     }
