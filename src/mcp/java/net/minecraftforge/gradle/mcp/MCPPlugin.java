@@ -52,10 +52,6 @@ public class MCPPlugin implements Plugin<Project> {
 
         project.afterEvaluate(p -> {
             project.getRepositories().maven(e -> {
-                e.setUrl(Mirrors.MCBBS_MAVEN);
-                e.metadataSources(src -> src.artifact());
-            });
-            project.getRepositories().maven(e -> {
                 e.setUrl(Mirrors.BMCL_MAVEN);
                 e.metadataSources(src -> src.artifact());
             });

@@ -98,9 +98,6 @@ public class PatcherPlugin implements Plugin<Project> {
 
         //Add Known repos
         project.getRepositories().maven(e -> {
-            e.setUrl(Mirrors.MCBBS_MAVEN);
-        });
-        project.getRepositories().maven(e -> {
             e.setUrl(Mirrors.BMCL_MAVEN);
         });
         project.getRepositories().maven(e -> {
@@ -110,10 +107,6 @@ public class PatcherPlugin implements Plugin<Project> {
                 .add(MCPRepo.create(project))
                 .add(MinecraftRepo.create(project))
                 .attach(project);
-        project.getRepositories().maven(e -> {
-            e.setUrl(Mirrors.MCBBS_MAVEN);
-            e.metadataSources(src -> src.artifact());
-        });
         project.getRepositories().maven(e -> {
             e.setUrl(Mirrors.BMCL_MAVEN);
             e.metadataSources(src -> src.artifact());
