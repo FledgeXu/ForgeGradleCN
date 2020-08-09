@@ -20,10 +20,21 @@
 
 package net.minecraftforge.gradle.common.util;
 
+import org.gradle.api.Project;
+
+import java.util.Objects;
+
 public class Mirrors {
-    public static final String MCBBS = "https://download.mcbbs.net";
-    public static final String BMCL_MAVEN = "http://bmclapi2.bangbang93.com/maven";
-    public static final String MCBBS_MAVEN = "http://download.mcbbs.net/maven";
-    public static final String MCBBS_AESSETS = "https://download.mcbbs.net/assets/";
+    public static String MINECRAFT_JAR = "https://download.mcbbs.net";
+    public static String FORGE_MAVEN = "http://bmclapi2.bangbang93.com/maven";
+    public static String MINECRAFT_LIB = "http://download.mcbbs.net/maven";
+    public static String MINECRAFT_ASSERTS = "https://download.mcbbs.net/assets/";
     public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/central";
+
+    public static void changeMirror(Project project) {
+        MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "https://download.mcbbs.net";
+        FORGE_MAVEN = project.hasProperty("FORGE_MAVEN") ? ((String) Objects.requireNonNull(project.property("FORGE_MAVEN"))).replaceAll("/$", "") : "https://lss233.littleservice.cn/repositories/forgedev";
+        MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "https://lss233.littleservice.cn/repositories/forgedev";
+        MINECRAFT_ASSERTS = project.hasProperty("MINECRAFT_ASSERTS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSERTS"))).replaceAll("/$", "") : "https://download.mcbbs.net/assets";
+    }
 }

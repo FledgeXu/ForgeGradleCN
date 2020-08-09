@@ -98,7 +98,7 @@ public class PatcherPlugin implements Plugin<Project> {
 
         //Add Known repos
         project.getRepositories().maven(e -> {
-            e.setUrl(Mirrors.BMCL_MAVEN);
+            e.setUrl(Mirrors.FORGE_MAVEN);
         });
         project.getRepositories().maven(e -> {
             e.setUrl(Utils.FORGE_MAVEN);
@@ -108,7 +108,7 @@ public class PatcherPlugin implements Plugin<Project> {
                 .add(MinecraftRepo.create(project))
                 .attach(project);
         project.getRepositories().maven(e -> {
-            e.setUrl(Mirrors.BMCL_MAVEN);
+            e.setUrl(Mirrors.FORGE_MAVEN);
             e.metadataSources(src -> src.artifact());
         });
 

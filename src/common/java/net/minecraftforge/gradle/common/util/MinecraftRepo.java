@@ -53,7 +53,7 @@ import java.util.zip.ZipOutputStream;
 public class MinecraftRepo extends BaseRepo {
     private static MinecraftRepo INSTANCE;
     private static final String GROUP = "net.minecraft";
-    public static final String MANIFEST_URL = "https://download.mcbbs.net/mc/game/version_manifest.json";
+    public static final String MANIFEST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
     public static final String CURRENT_OS = OS.getCurrent().getName();
     private static int CACHE_BUSTER = 1;
     private static final MinecraftVersion v1_14_4 = MinecraftVersion.from("1.14.4");
@@ -259,7 +259,7 @@ public class MinecraftRepo extends BaseRepo {
 
         Download dl = json.downloads.get(key);
         if (!target.exists() || !HashFunction.SHA1.hash(target).equals(dl.sha1)) {
-            dl.url = new URL(dl.url.toString().toLowerCase().replace("https://launcher.mojang.com", Mirrors.MCBBS));
+            dl.url = new URL(dl.url.toString().toLowerCase().replace("https://launcher.mojang.com", Mirrors.MINECRAFT_JAR));
             FileUtils.copyURLToFile(dl.url, target);
             Utils.updateHash(target, HashFunction.SHA1);
         }

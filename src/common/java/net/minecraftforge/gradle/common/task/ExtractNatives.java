@@ -42,7 +42,7 @@ public class ExtractNatives extends DefaultTask {
         VersionJson json = Utils.loadJson(getMeta(), VersionJson.class);
         for (LibraryDownload lib : json.getNatives()) {
             File target = Utils.getCache(getProject(), "libraries", lib.path);
-            lib.url = new URL(lib.url.toString().toLowerCase().replace("https://libraries.minecraft.net", Mirrors.MCBBS_MAVEN));
+            lib.url = new URL(lib.url.toString().toLowerCase().replace("https://libraries.minecraft.net", Mirrors.MINECRAFT_LIB));
             Utils.updateDownload(getProject(), target, lib);
             Utils.extractZip(target, getOutput(), false);
         }

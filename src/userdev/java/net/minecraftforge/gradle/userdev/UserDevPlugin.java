@@ -22,7 +22,6 @@ package net.minecraftforge.gradle.userdev;
 
 import net.minecraftforge.gradle.common.task.*;
 import net.minecraftforge.gradle.common.util.*;
-import net.minecraftforge.gradle.common.util.Mirrors;
 import net.minecraftforge.gradle.mcp.MCPRepo;
 import net.minecraftforge.gradle.mcp.task.DownloadMCPMappingsTask;
 import net.minecraftforge.gradle.mcp.task.GenerateSRG;
@@ -56,6 +55,7 @@ public class UserDevPlugin implements Plugin<Project> {
     @Override
     public void apply(@Nonnull Project project) {
         Utils.checkJavaVersion();
+        Mirrors.changeMirror(project);
 
         @SuppressWarnings("unused") final Logger logger = project.getLogger();
         final UserDevExtension extension = project.getExtensions().create(UserDevExtension.EXTENSION_NAME, UserDevExtension.class, project);
@@ -257,7 +257,7 @@ public class UserDevPlugin implements Plugin<Project> {
                 e.setUrl(Mirrors.ALIYUN_CENTRAL);
             });
             project.getRepositories().maven(e -> {
-                e.setUrl(Mirrors.BMCL_MAVEN);
+                e.setUrl(Mirrors.FORGE_MAVEN);
             });
             project.getRepositories().maven(e -> {
                 e.setUrl(Utils.FORGE_MAVEN);

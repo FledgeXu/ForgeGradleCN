@@ -52,7 +52,7 @@ public class MCPPlugin implements Plugin<Project> {
 
         project.afterEvaluate(p -> {
             project.getRepositories().maven(e -> {
-                e.setUrl(Mirrors.BMCL_MAVEN);
+                e.setUrl(Mirrors.FORGE_MAVEN);
                 e.metadataSources(src -> src.artifact());
             });
             //Add Known repos

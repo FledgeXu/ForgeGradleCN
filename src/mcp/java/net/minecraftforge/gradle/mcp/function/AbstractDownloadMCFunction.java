@@ -44,7 +44,7 @@ public abstract class AbstractDownloadMCFunction extends AbstractFileDownloadFun
             reader.close();
 
             JsonObject artifactInfo = json.getAsJsonObject("downloads").getAsJsonObject(artifact);
-            String url = artifactInfo.get("url").getAsString().replace("https://launcher.mojang.com", Mirrors.MCBBS);
+            String url = artifactInfo.get("url").getAsString().replace("https://launcher.mojang.com", Mirrors.MINECRAFT_JAR);
             HashValue hash = HashValue.parse(artifactInfo.get("sha1").getAsString());
             return new DownloadInfo(url, hash);
         } catch (IOException ex) {
