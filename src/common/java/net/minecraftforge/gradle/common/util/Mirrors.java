@@ -25,10 +25,10 @@ import org.gradle.api.Project;
 import java.util.Objects;
 
 public class Mirrors {
-    public static String MINECRAFT_JAR = "https://download.mcbbs.net";
-    public static String FORGE_MAVEN = "http://bmclapi2.bangbang93.com/maven";
-    public static String MINECRAFT_LIB = "http://download.mcbbs.net/maven";
-    public static String MINECRAFT_ASSERTS = "https://download.mcbbs.net/assets/";
+    public static String MINECRAFT_JAR ;
+    public static String FORGE_MAVEN ;
+    public static String MINECRAFT_LIB;
+    public static String MINECRAFT_ASSERTS ;
     public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/central";
 
     public static void changeMirror(Project project) {
