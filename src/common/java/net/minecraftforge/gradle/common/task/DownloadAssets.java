@@ -20,7 +20,10 @@
 
 package net.minecraftforge.gradle.common.task;
 
+<<<<<<< HEAD
 import net.minecraftforge.gradle.common.util.Mirrors;
+=======
+>>>>>>> upsteam/FG_3.0
 import net.minecraftforge.gradle.common.util.Utils;
 import net.minecraftforge.gradle.common.util.VersionJson;
 import org.apache.commons.io.FileUtils;
@@ -41,7 +44,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class DownloadAssets extends DefaultTask {
-    private static final String RESOURCE_REPO = "http://resources.download.minecraft.net/";
+    private static final String RESOURCE_REPO = "https://resources.download.minecraft.net/";
     private File meta;
 
     @TaskAction
