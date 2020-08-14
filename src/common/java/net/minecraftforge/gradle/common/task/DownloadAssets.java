@@ -20,10 +20,7 @@
 
 package net.minecraftforge.gradle.common.task;
 
-<<<<<<< HEAD
 import net.minecraftforge.gradle.common.util.Mirrors;
-=======
->>>>>>> upsteam/FG_3.0
 import net.minecraftforge.gradle.common.util.Utils;
 import net.minecraftforge.gradle.common.util.VersionJson;
 import org.apache.commons.io.FileUtils;
