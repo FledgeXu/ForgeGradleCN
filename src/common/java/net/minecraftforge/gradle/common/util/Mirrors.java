@@ -28,13 +28,13 @@ public class Mirrors {
     public static String MINECRAFT_JAR ;
     public static String FORGE_MAVEN ;
     public static String MINECRAFT_LIB;
-    public static String MINECRAFT_ASSERTS ;
+    public static String MINECRAFT_ASSETS;
     public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/central";
 
     public static void changeMirror(Project project) {
         MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "https://download.mcbbs.net";
         FORGE_MAVEN = project.hasProperty("FORGE_MAVEN") ? ((String) Objects.requireNonNull(project.property("FORGE_MAVEN"))).replaceAll("/$", "") : "https://download.mcbbs.net/maven";
         MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "https://download.mcbbs.net/maven";
-        MINECRAFT_ASSERTS = project.hasProperty("MINECRAFT_ASSERTS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSERTS"))).replaceAll("/$", "") : "https://download.mcbbs.net/assets";
+        MINECRAFT_ASSETS = project.hasProperty("MINECRAFT_ASSETS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSETS"))).replaceAll("/$", "") : "https://resources.download.minecraft.net";
     }
 }

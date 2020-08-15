@@ -57,7 +57,7 @@ public class DownloadAssets extends DefaultTask {
             Asset asset = index.objects.get(key);
             File target = Utils.getCache(getProject(), "assets", "objects", asset.getPath());
             if (!target.exists() || !HashFunction.SHA1.hash(target).equals(asset.hash)) {
-                URL url = new URL(Mirrors.MINECRAFT_ASSERTS + "/" + asset.getPath());
+                URL url = new URL(Mirrors.MINECRAFT_ASSETS + "/" + asset.getPath());
                 Runnable copyURLtoFile = () -> {
                     try {
                         File localFile = FileUtils.getFile(assetsPath + File.separator + asset.getPath());
