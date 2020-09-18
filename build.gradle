@@ -1,6 +1,7 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        jcenter()
+        maven { url = 'https://files.minecraftforge.net/maven' }
     }
 }
 plugins {
@@ -8,12 +9,6 @@ plugins {
     id 'org.ajoberstar.grgit' version '3.0.0'
     id 'com.github.ben-manes.versions' version '0.20.0'
     //id 'com.github.johnrengelman.shadow' version '2.0.4'
-}
-allprojects {
-    repositories {
-        maven { url = 'https://maven.aliyun.com/repository/jcenter' }
-        maven { url = 'https://maven.aliyun.com/repository/central' }
-    }
 }
 apply plugin: 'java'
 apply plugin: 'maven-publish'
