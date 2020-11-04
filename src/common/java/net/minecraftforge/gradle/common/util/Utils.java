@@ -516,10 +516,12 @@ public class Utils {
                 null //TODO: Add JDK range check to MCPConfig?
             );
         }
-
-        if (ENABLE_TEST_CERTS) {
-            testServerConnection(FORGE_MAVEN);
-            testServerConnection(MOJANG_MAVEN);
+        //FGCN patch, We will not check Certs.
+        if(false) {
+            if (ENABLE_TEST_CERTS) {
+                testServerConnection(FORGE_MAVEN);
+                testServerConnection(MOJANG_MAVEN);
+            }
         }
     }
 
@@ -635,14 +637,18 @@ public class Utils {
 
     public static File getMCDir()
     {
-        switch (VersionJson.OS.getCurrent()) {
-            case OSX:
-                return new File(System.getProperty("user.home") + "/Library/Application Support/minecraft");
-            case WINDOWS:
-                return new File(System.getenv("APPDATA") + "\\.minecraft");
-            case LINUX:
-            default:
-                return new File(System.getProperty("user.home") + "/.minecraft");
+        if(System.getProperty("MC_DIR") == null){
+            switch (VersionJson.OS.getCurrent()) {
+                case OSX:
+                    return new File(System.getProperty("user.home") + "/Library/Application Support/minecraft");
+                case WINDOWS:
+                    return new File(System.getenv("APPDATA") + "\\.minecraft");
+                case LINUX:
+                default:
+                    return new File(System.getProperty("user.home") + "/.minecraft");
+            }
+        }else {
+            return new File(System.getProperty("MC_DIR"));
         }
     }
 }

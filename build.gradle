@@ -19,7 +19,7 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
-group = 'net.minecraftforge.gradle'
+group = 'com.otakusaikou.fgcn'
 version = gitVersion()
 
 def gitVersion() {
@@ -38,6 +38,7 @@ sourceSets {
     mcp
     patcher
     userdev
+    fgcn
 }
 
 configurations {
@@ -47,6 +48,7 @@ configurations {
     mcpImplementation.extendsFrom commonImplementation
     patcherImplementation.extendsFrom commonImplementation
     userdevImplementation.extendsFrom mcpImplementation
+    fgcnImplementation.extendsFrom userdevImplementation
     implementation.extendsFrom mcpImplementation, patcherImplementation, userdevImplementation
 }
 
@@ -55,6 +57,7 @@ jar {
     from sourceSets.mcp.output
     from sourceSets.patcher.output
     from sourceSets.userdev.output
+    from sourceSets.fgcn.output
 }
 
 repositories {
@@ -72,6 +75,7 @@ license {
     exclude '**/*.properties'
     exclude 'net/minecraftforge/gradle/common/diff/'
     exclude 'net/minecraftforge/gradle/common/util/JavaVersionParser.java'
+    exclude 'com/otakusaikou/fgcn/userdev/UserDevPluginWrapper.java'
 }
 
 wrapper {
@@ -98,6 +102,7 @@ dependencies {
     patcherImplementation sourceSets.common.output
     userdevImplementation sourceSets.mcp.output
     userdevImplementation sourceSets.common.output
+    fgcnImplementation sourceSets.userdev.output
 }
 
 //Gradle doesn't add it's own source when doing the API. So lets hack it in!

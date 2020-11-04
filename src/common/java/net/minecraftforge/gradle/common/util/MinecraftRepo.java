@@ -151,6 +151,10 @@ public class MinecraftRepo extends BaseRepo {
     private File findMcp(String version) throws IOException {
         net.minecraftforge.gradle.common.util.Artifact mcp = net.minecraftforge.gradle.common.util.Artifact.from("de.oceanlabs.mcp:mcp_config:" + version + "@zip");
         File zip = cache("versions", version, "mcp.zip");
+        if(!zip.exists()){
+            FileUtils.copyURLToFile(new URL(Mirrors.FORGE_MAVEN + "/" + mcp.getPath()), zip);
+            Utils.updateHash(zip);
+        }
         if (!zip.exists()) {
             FileUtils.copyURLToFile(new URL(Utils.FORGE_MAVEN + mcp.getPath()), zip);
             Utils.updateHash(zip);

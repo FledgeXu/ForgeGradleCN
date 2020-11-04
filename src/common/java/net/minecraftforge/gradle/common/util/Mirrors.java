@@ -29,12 +29,12 @@ public class Mirrors {
     public static String FORGE_MAVEN ;
     public static String MINECRAFT_LIB;
     public static String MINECRAFT_ASSETS;
-    public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/central";
+    public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/public";
 
     public static void changeMirror(Project project) {
-        MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "http://bmclapi2.bangbang93.com";
-        FORGE_MAVEN = project.hasProperty("FORGE_MAVEN") ? ((String) Objects.requireNonNull(project.property("FORGE_MAVEN"))).replaceAll("/$", "") : "http://bmclapi2.bangbang93.com/maven";
-        MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "http://bmclapi2.bangbang93.com/maven";
-        MINECRAFT_ASSETS = project.hasProperty("MINECRAFT_ASSETS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSETS"))).replaceAll("/$", "") : "http://bmclapi2.bangbang93.com/assets";
+        MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "https://download.mcbbs.net";
+        FORGE_MAVEN = project.hasProperty("FORGE_MAVEN") ? ((String) Objects.requireNonNull(project.property("FORGE_MAVEN"))).replaceAll("/$", "") : "https://lss233.littleservice.cn/repositories/forgedev";
+        MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "https://download.mcbbs.net/maven";
+        MINECRAFT_ASSETS = project.hasProperty("MINECRAFT_ASSETS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSETS"))).replaceAll("/$", "") : "https://download.mcbbs.net/assets";
     }
 }
