@@ -32,9 +32,9 @@ public class Mirrors {
     public static final String ALIYUN_CENTRAL = "https://maven.aliyun.com/repository/public";
 
     public static void changeMirror(Project project) {
-        MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "https://download.mcbbs.net";
+        MINECRAFT_JAR = project.hasProperty("MINECRAFT_JAR") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_JAR"))).replaceAll("/$", "") : "https://mc.mirrors.tmysam.top";
         FORGE_MAVEN = project.hasProperty("FORGE_MAVEN") ? ((String) Objects.requireNonNull(project.property("FORGE_MAVEN"))).replaceAll("/$", "") : "https://lss233.littleservice.cn/repositories/forgedev";
-        MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "https://download.mcbbs.net/maven";
-        MINECRAFT_ASSETS = project.hasProperty("MINECRAFT_ASSETS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSETS"))).replaceAll("/$", "") : "https://download.mcbbs.net/assets";
+        MINECRAFT_LIB = project.hasProperty("MINECRAFT_LIB") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_LIB"))).replaceAll("/$", "") : "https://mclib.mirrors.tmysam.top";
+        MINECRAFT_ASSETS = project.hasProperty("MINECRAFT_ASSETS") ? ((String) Objects.requireNonNull(project.property("MINECRAFT_ASSETS"))).replaceAll("/$", "") : "https://mcres.mirrors.tmysam.top";
     }
 }
