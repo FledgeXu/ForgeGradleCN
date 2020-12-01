@@ -8,6 +8,8 @@ plugins {
     id 'net.minecrell.licenser' version '0.4.1'
     id 'org.ajoberstar.grgit' version '3.0.0'
     id 'com.github.ben-manes.versions' version '0.20.0'
+    id 'signing'
+    id 'java-library'
     //id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 apply plugin: 'java'
@@ -92,7 +94,7 @@ dependencies {
     commonImplementation 'com.google.code.gson:gson:2.8.5'
     commonImplementation 'com.google.guava:guava:26.0-jre'
     commonImplementation 'de.siegmar:fastcsv:1.0.2'
-    commonImplementation 'net.minecraftforge:artifactural:1.0.+'
+    commonImplementation 'net.minecraftforge:artifactural:[1.0.3,)'
     commonImplementation 'org.apache.maven:maven-artifact:3.6.0'
     commonImplementation 'org.apache.httpcomponents:httpclient:4.3.3'
     commonImplementation 'net.minecraftforge:srgutils:0.2.12'
@@ -123,19 +125,107 @@ project.extensions.eclipse.classpath.file.whenMerged { Classpath cp ->
     }
 }
 
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            from components.java
+//        }
+//    }
+//    repositories {
+//        maven {
+//            credentials {
+//                username System.env.MAVEN_USERNAME
+//                password System.env.MAVEN_PASSWORD
+//            }
+//            url 'http://gradle.otakusaikou.com/releases'
+//        }
+//    }
+//}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+javadoc {
+    description = "生成jar格式的javadoc。"
+    // 只显示 protected 和 public 的类和成员
+    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+    options.author = true
+    options.version = true
+    options.header = project.name
+    // 静默javadoc检查（比如不支持@date会报错等），jdk 8+
+    options.addStringOption('Xdoclint:none', '-quiet')
+    // 防止本地打开中文乱码
+    options.addStringOption("charset", "UTF-8")
+    // suppress warnings due to cross-module @see and @link references;
+    // note that global 'api' task does display all warnings.
+    logging.captureStandardError LogLevel.INFO
+    // suppress "## warnings" message
+    logging.captureStandardOutput LogLevel.INFO
+    // 编码一定要配置否则直接出错
+    options.encoding = "UTF-8"
+    options.charSet = "UTF-8"
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId = 'com.otakusaikou.fgcn'
+            artifactId = 'ForgeGradleCN'
+            version = version
             from components.java
+
+            artifact sourceJar
+            artifact javadocJar
+
+            pom {
+                name = 'ForgeGradleCN'
+                description = 'Special version of ForgeGradle'
+                url = 'https://github.com/FledgeXu/ForgeGradleCN'
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License v2.1'
+                        url = 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
+                        distribution = 'repo'
+                        comments = 'A free software license'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'FledgeShiu'
+                        email = 'xzk0701@gmail.com'
+                        roles = ['Java Developer']
+                        url = "http://blog.otakusaikou.com/"
+                    }
+                }
+                scm {
+                    url = 'https://github.com/FledgeXu/ForgeGradleCN'
+                    connection = 'scm:git:https://github.com/FledgeXu/ForgeGradleCN.git'
+                    developerConnection = 'scm:git:git@github.com:FledgeXu/ForgeGradleCN.git'
+                }
+            }
         }
     }
+
     repositories {
         maven {
+            name "oss"
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
-                username System.env.MAVEN_USERNAME
-                password System.env.MAVEN_PASSWORD
+                username = sonatypeUsername
+                password = sonatypePassword
             }
-            url 'http://gradle.otakusaikou.com/releases'
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
